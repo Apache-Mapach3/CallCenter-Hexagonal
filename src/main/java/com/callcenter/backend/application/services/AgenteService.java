@@ -12,22 +12,19 @@ import com.callcenter.backend.domain.model.Agente;
 import com.callcenter.backend.domain.ports.in.GestionarAgenteUseCase;
 import com.callcenter.backend.domain.ports.out.AgenteRepositoryPort;
 import java.util.List;
-
-// APLICACIÓN: Implementación del Caso de Uso.
-// Contiene la lógica de negocio pura. Coordina los puertos.
-// No tiene anotaciones de Spring (@Service) para mantener la pureza de la arquitectura.
+// APLICACIÓN: Servicio de Agente.
+// Implementa el caso de uso (GestionarAgenteUseCase).
+// Esta clase coordina la lógica: recibe datos, valida y llama al repositorio.
 public class AgenteService implements GestionarAgenteUseCase {
 
     private final AgenteRepositoryPort agenteRepositoryPort;
-
-    // Inyección por constructor del puerto de salida (Base de datos)
+// Inyección por Constructor: Recibe cualquier implementación del repositorio
     public AgenteService(AgenteRepositoryPort agenteRepositoryPort) {
         this.agenteRepositoryPort = agenteRepositoryPort;
     }
 
     @Override
     public Agente crearAgente(Agente agente) {
-        // Aquí irían validaciones de negocio Ejemplo: validar formato de email
         return agenteRepositoryPort.save(agente);
     }
 
@@ -37,7 +34,7 @@ public class AgenteService implements GestionarAgenteUseCase {
             agente.setId(id);
             return agenteRepositoryPort.save(agente);
         }
-        return null;
+        return null; // O lanzar excepción
     }
 
     @Override
@@ -49,9 +46,10 @@ public class AgenteService implements GestionarAgenteUseCase {
     public List<Agente> listarAgentes() {
         return agenteRepositoryPort.findAll();
     }
-
+    
     @Override
     public void eliminarAgente(Long id) {
-        // Lógica para eliminar
+        // Llamamos al puerto de salida para borrar
+        agenteRepositoryPort.deleteById(id);
     }
 }

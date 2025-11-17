@@ -79,5 +79,10 @@ public class AgentePersistenceAdapter implements AgenteRepositoryPort {
                         entity.getNivelExperiencia()
                 ))
                 .collect(Collectors.toList());
+    }  
+        @Override
+    public void deleteById(Long id) {
+        springRepository.deleteById(id);
+    
     }
 }

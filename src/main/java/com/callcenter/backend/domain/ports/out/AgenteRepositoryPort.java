@@ -19,5 +19,6 @@ public interface AgenteRepositoryPort {
     Agente save(Agente agente);
     Optional<Agente> findById(Long id);
     List<Agente> findAll();
+    void deleteById(Long id);
     // void deleteById(Long id);
 }

@@ -9,20 +9,26 @@ package com.callcenter.backend.infrastructure.config;
  * @author Jarry
  */
 import com.callcenter.backend.application.services.AgenteService;
+import com.callcenter.backend.application.services.CampanaService;
 import com.callcenter.backend.domain.ports.in.GestionarAgenteUseCase;
+import com.callcenter.backend.domain.ports.in.GestionarCampanaUseCase;
 import com.callcenter.backend.domain.ports.out.AgenteRepositoryPort;
+import com.callcenter.backend.domain.ports.out.CampanaRepositoryPort;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-// CONFIGURACIÓN: Inyección de Dependencias manual.
-// Aquí le "enseñamos" a Spring cómo crear los servicios del dominio
-// ya que ellos no tienen anotaciones @Service.
+// INFRAESTRUCTURA: Configuración de Beans de Spring.
+// Como nuestras clases de Dominio/Aplicación no tienen anotaciones @Service (para mantenerlas puras),
+// aquí las instanciamos manualmente y les inyectamos sus dependencias.
 @Configuration
 public class BeanConfiguration {
-
+// Inyección del Servicio de Agentes
     @Bean
     public GestionarAgenteUseCase gestionarAgenteUseCase(AgenteRepositoryPort repositoryPort) {
-        // Inyectamos el adaptador de persistencia en el servicio de dominio
         return new AgenteService(repositoryPort);
+    }
+// Inyección del Servicio de Campañas
+    @Bean
+    public GestionarCampanaUseCase gestionarCampanaUseCase(CampanaRepositoryPort repositoryPort) {
+        return new CampanaService(repositoryPort);
     }
 }
